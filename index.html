@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediFind - Hospital Locator</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #10b981;
+      --light: #f8fafc;
+      --dark: #1e293b;
+      --gray: #64748b;
+      --light-gray: #e2e8f0;
+      --danger: #ef4444;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: var(--dark);
+      background: #f1f5f9;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* Header */
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 1rem 2rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-container {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    .logo i { color: var(--secondary); }
+    
+    /* Main */
+    main {
+      flex: 1;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    
+    .hero {
+      text-align: center;
+      padding: 2rem 1rem;
+      margin-bottom: 2rem;
+    }
+    .hero h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+    .hero p {
+      font-size: 1rem;
+      color: var(--gray);
+      max-width: 700px;
+      margin: 0 auto 2rem;
+    }
+    .cta-button {
+      background: var(--primary);
+      color: white;
+      padding: 0.75rem 2rem;
+      border: none;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 6px rgba(37, 99, 235, 0.3);
+    }
+    .cta-button:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+    
+    .results { margin-top: 2rem; }
+    
+    .hospital-card {
+      background: var(--light);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    .hospital-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .hospital-name {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--primary);
+    }
+    .hospital-distance {
+      background: var(--secondary);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 50px;
+      font-size: 0.9rem;
+    }
+    .hospital-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+    .hospital-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .action-btn {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .direction-btn { background: var(--primary); color: white; }
+    .direction-btn:hover { background: var(--primary-dark); }
+    .call-btn { background: var(--secondary); color: white; text-decoration: none; }
+    .call-btn:hover { background: #0da271; }
+    
+    .info-message {
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+      margin: 1rem 0;
+    }
+    .info-error { background: #fee2e2; color: var(--danger); }
+    .info-default { background: var(--light); color: var(--gray); }
+    
+    /* Footer */
+    footer {
+      background: var(--dark);
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <i class="fas fa-hospital"></i>
+        <span>MediFind</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <section class="hero">
+      <h1>Find Nearest Hospitals Quickly</h1>
+      <p>MediFind helps you locate the nearest hospitals and medical facilities in emergency situations or for regular healthcare needs.</p>
+      <button class="cta-button" onclick="findNearestHospital()">
+        <i class="fas fa-location-arrow"></i> Find Hospitals Near Me
+      </button>
+      <div class="results">
+        <div id="info" class="info-message info-default">
+          <i class="fas fa-info-circle"></i> Click the button above to find hospitals near you.
+        </div>
+        <div id="hospital-results"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2023 MediFind Hospital Locator. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const hospitals = [
+      { name: "General Hospital", lat: 10.289, lon: 9.789, address: "123 Main Street", phone: "+1 (234) 567-8901", emergency: "+1 (234) 911-9111", services: ["Emergency", "Surgery", "Pediatrics"] },
+      { name: "Federal Medical Centre", lat: 10.300, lon: 9.812, address: "456 Federal Avenue", phone: "+1 (234) 567-8902", emergency: "+1 (234) 911-9112", services: ["Cardiology", "Oncology", "Neurology"] },
+      { name: "Specialist Hospital", lat: 10.280, lon: 9.770, address: "789 Healthcare Blvd", phone: "+1 (234) 567-8903", emergency: "+1 (234) 911-9113", services: ["Orthopedics", "Maternity", "Dermatology"] }
+    ];
+
+    function getDistance(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a = Math.sin(dLat / 2) ** 2 +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon / 2) ** 2;
+      return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
+    }
+
+    function displayHospitals(userLat, userLon) {
+      const hospitalsWithDistance = hospitals.map(h => ({ ...h, distance: getDistance(userLat, userLon, h.lat, h.lon) }))
+                                             .sort((a, b) => a.distance - b.distance);
+
+      let resultsHTML = '';
+      hospitalsWithDistance.forEach(h => {
+        resultsHTML += `
+          <div class="hospital-card">
+            <div class="hospital-header">
+              <h3 class="hospital-name">${h.name}</h3>
+              <span class="hospital-distance">${h.distance.toFixed(2)} km away</span>
+            </div>
+            <p><i class="fas fa-map-marker-alt"></i> ${h.address}</p>
+            <div class="hospital-details">
+              <div><i class="fas fa-phone"></i> <strong>Phone:</strong> ${h.phone}</div>
+              <div><i class="fas fa-ambulance"></i> <strong>Emergency:</strong> ${h.emergency}</div>
+            </div>
+            <p><i class="fas fa-stethoscope"></i> <strong>Services:</strong> ${h.services.join(', ')}</p>
+            <div class="hospital-actions">
+              <button class="action-btn direction-btn" onclick="openDirections(${userLat}, ${userLon}, ${h.lat}, ${h.lon})">
+                <i class="fas fa-route"></i> Get Directions
+              </button>
+              <a href="tel:${h.emergency}" class="action-btn call-btn">
+                <i class="fas fa-phone"></i> Call Emergency
+              </a>
+            </div>
+          </div>`;
+      });
+
+      document.getElementById('hospital-results').innerHTML = resultsHTML;
+      document.getElementById('info').innerHTML = `<i class="fas fa-check-circle"></i> Found ${hospitals.length} hospitals near you`;
+    }
+
+    function findNearestHospital() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          pos => displayHospitals(pos.coords.latitude, pos.coords.longitude),
+          err => {
+            document.getElementById('info').className = 'info-message info-error';
+            document.getElementById('info').innerHTML = `<i class="fas fa-exclamation-circle"></i> Location access denied or unavailable.`;
+          }
+        );
+      } else {
+        document.getElementById('info').className = 'info-message info-error';
+        document.getElementById('info').innerHTML = `<i class="fas fa-exclamation-circle"></i> Geolocation not supported.`;
+      }
+    }
+    
+    function openDirections(userLat, userLon, hospitalLat, hospitalLon) {
+      const url = `https://www.google.com/maps/dir/?api=1&origin=${userLat},${userLon}&destination=${hospitalLat},${hospitalLon}&travelmode=driving`;
+      window.open(url, '_blank');
+    }
+  </script>
+</body>
+</html>
