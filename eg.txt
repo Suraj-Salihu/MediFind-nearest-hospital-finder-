@@ -1,0 +1,61 @@
+<!-- Header -->
+<header>
+  <div class="header-container">
+    <div class="logo">
+      <i class="fas fa-hospital"></i>
+      <span>MediFind</span>
+    </div>
+    <!-- Theme Toggle Icon -->
+    <button id="theme-toggle" class="theme-btn">
+      <i class="fas fa-moon"></i>
+    </button>
+  </div>
+</header>
+
+<style>
+  .theme-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  .theme-btn:hover {
+    transform: scale(1.2);
+  }
+
+  /* Dark Mode Styles */
+  body.dark-mode {
+    background: #0f172a;
+    color: #f8fafc;
+  }
+  body.dark-mode header {
+    background: #1e293b;
+  }
+  body.dark-mode .hero h1 {
+    color: #38bdf8;
+  }
+  body.dark-mode .hospital-card {
+    background: #1e293b;
+    color: #f8fafc;
+  }
+  body.dark-mode footer {
+    background: #0f172a;
+  }
+</style>
+
+<script>
+  const themeBtn = document.getElementById('theme-toggle');
+  const body = document.body;
+
+  themeBtn.addEventListener('click', () => {
+    body.classList.toggle('dark-mode');
+    // Change icon dynamically
+    if (body.classList.contains('dark-mode')) {
+      themeBtn.innerHTML = '<i class="fas fa-sun"></i>';
+    } else {
+      themeBtn.innerHTML = '<i class="fas fa-moon"></i>';
+    }
+  });
+</script>
